@@ -1,0 +1,39 @@
+<template>
+    <div if:true={isLoading}>
+        <lightning-spinner
+            alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-size_8-of-12">
+            <lightning-input type="text"  value=" " placeholder="Write a comment..." variant="label-hidden">
+            </lightning-input>
+        </div>
+        <div class="slds-col slds-large-size_1-of-12 slds-medium-size_1-of-12 slds-size_1-of-12">
+            <lightning-button-icon icon-name="utility:arrowup" variant="brand" onclick={handlechange}></lightning-button-icon>
+        </div>
+      </div>
+      <lightning-card title="Comments">
+        <div class="slds-var-m-around_medium">
+            <template if:true={comments}>
+                <template for:each={comments} for:item="comm">
+                    <div key={comm.Id}>
+                        <div style="display:inline-block">
+                        <lightning-avatar variant="circle" src={comm.CreatedBy.SmallPhotoUrl} fallback-icon-name="standard:person_account"  class="slds-var-m-right_small"></lightning-avatar>
+                    </div>
+                        <div style="display:inline-block"> 
+                        <p ><b>{comm.CreatedBy.Name}</b></p>
+                         <p >{comm.CreatedDate}</p>
+                        </div>
+                    </div>
+                        <div key={comm.Id}>
+                            {comm.Body__c}
+                        </div>
+                        
+                    <hr key={comm.Id}>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+
+</template>
