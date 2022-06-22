@@ -9,20 +9,20 @@ import { NavigationMixin } from 'lightning/navigation';
 export default class Del_commentsPage extends NavigationMixin(LightningElement) {
     strBody = "";
     @api recordId;
-    @track list_comments = [];
+    @track list_Comments = [];
     @track blnIsLoading = false;
-    list_errors;
+    list_Errors;
     strInsertId;
-    objwiredComments;
+    objwiredComments; //contains retrieved data and errors from fetchComments(). Used to refresh apex data after insertion.
     //fetchComments-this method used to fetch the comments related to the case.
-    @wire(fetchComments,{recordId:'$recordId'})
+    @wire(fetchComments,{strRecordId:'$recordId'})
     commResult (result){
         this.objwiredComments=result;
         if(result.data){
-            this.list_comments = JSON.parse(JSON.stringify(result.data));
+            this.list_Comments = JSON.parse(JSON.stringify(result.data));
         }
         else if(result.error){
-            this.list_errors = error;
+            this.list_Errors = error;
         }
     }
     //handleChange- this method is invoked on the click comment submission button and used to insert the entered comment and refresh the updated comment list.
@@ -30,7 +30,7 @@ export default class Del_commentsPage extends NavigationMixin(LightningElement) 
         if(this.isCommentValid()){
             this.handleIsLoading(true);
             this.strBody = this.template.querySelector('lightning-input').value;
-            insertComment({recordId:this.recordId,strBody:this.strBody})
+            insertComment({strRecordId : this.recordId,strBody : this.strBody})
             .then((result)=>{
                 this.strInsertId = result;
                 console.log('comment id is'+this.strInsertId);
@@ -42,7 +42,7 @@ export default class Del_commentsPage extends NavigationMixin(LightningElement) 
                 });
                 this.dispatchEvent(event);
                 //nullifying the comment input box after comment is submitted.
-                this.template.querySelector('.nullify').value=null;
+                this.template.querySelector('.nullify').value = null;
                 //refreshing the comment list.
                 this.updateRecordView();
                 this.handleIsLoading(false);
@@ -52,14 +52,14 @@ export default class Del_commentsPage extends NavigationMixin(LightningElement) 
     }
 //isCommentValid- this method restricts the insertion of empty comment.
     isCommentValid(){
-        let commField=this.template.querySelector(".nullify");
-        if(commField.value == '' || commField.value == null){
-            commField.setCustomValidity('Enter a comment');
-            commField.reportValidity();
+        let CommentInputField = this.template.querySelector(".nullify");
+        if(CommentInputField.value == '' || CommentInputField.value == null){
+            CommentInputField.setCustomValidity('Enter a comment');
+            CommentInputField.reportValidity();
             return false;
         }else{
-            commField.setCustomValidity('');
-            commField.reportValidity()
+            CommentInputField.setCustomValidity('');
+            CommentInputField.reportValidity()
             return true;
         }
     }
@@ -74,7 +74,7 @@ export default class Del_commentsPage extends NavigationMixin(LightningElement) 
 //navigateToUser- This method is used to navigate to user profile on click of his name.
     navigateToUser(event){
         this[NavigationMixin.Navigate]({
-            type :'standard__recordPage',
+            type : 'standard__recordPage',
             attributes : { 
                 recordId : event.target.dataset.id,
                 actionName : 'view'
