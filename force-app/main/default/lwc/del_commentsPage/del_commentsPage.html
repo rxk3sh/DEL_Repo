@@ -12,54 +12,48 @@
 <template>
     <!--lightning-spinner: Used during updation of comments after a comment is inserted-->
     <div if:true={blnIsLoading}>
-        <lightning-spinner
-            alternative-text="Loading..." variant="brand" class="slds-is-fixed">
-        </lightning-spinner>
+            <lightning-spinner
+                alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+            </lightning-spinner>
     </div>
     <!--lightning-card: holds the casecomments-->
-    <div style="margin: 10px 250px 0px 0px">
-    <lightning-card>
-        <div class="slds-grid slds-wrap">
-            <div class="slds-col slds-large-size_10-of-12 slds-medium-size_10-of-12 slds-size_10-of-12">
-                <lightning-input type="text" class="nullify"  value="" placeholder="Write a comment..." variant="label-hidden">
-                </lightning-input>
-            </div>
-            <div class="slds-col slds-large-size_1-of-12 slds-medium-size_1-of-12 slds-size_1-of-12">
-                <lightning-button-icon icon-name="utility:arrowup" variant="brand" onclick={handlechange}></lightning-button-icon>
-            </div>
-            <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_11-of-12">
-                <div class="slds-var-m-around_medium" style="position: relaive;" >
-                    <template if:true={list_comments}>
-                        <template for:each={list_comments} for:item="comm">
-                            <div key={comm.Id}>
-                                <div style="display:inline-block;padding-bottom:20px; position:absolute" class="slds-grid_vertical-align-start">
-                                <lightning-avatar variant="circle" src={comm.CreatedBy.SmallPhotoUrl} fallback-icon-name="standard:person_account"  class="slds-var-m-right_small"></lightning-avatar>
+        <lightning-card>
+            <lightning-layout horizontal-align="spread" class="slds-grid">
+                <lightning-layout-item class="slds-col slds-large-size_10-of-12 slds-medium-size_10-of-12 slds-small-size_10-of-12">
+                    <lightning-input type="text" class="nullify"  value="" placeholder="Write a comment..." variant="label-hidden"></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-col slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_10-of-12">
+                    <lightning-button-icon icon-name="utility:arrowup" variant="brand" onclick={handlechange}></lightning-button-icon> 
+                </lightning-layout-item>
+            </lightning-layout>
+                <div class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-small-size_11-of-12">
+                    <div class="slds-var-m-around_medium" style="position: relative;" >
+                        <template if:true={list_Comments}>
+                            <template for:each={list_Comments} for:item="objCaseComment">
+                                <div key={objCaseComment.Id}>
+                                    <div  class="slds-grid_vertical-align-start del-style-userPhoto">
+                                        <lightning-avatar variant="circle" src={objCaseComment.CreatedBy.SmallPhotoUrl} fallback-icon-name="standard:person_account"  class="slds-var-m-right_small"></lightning-avatar>
+                                    </div>
+                                    <div class="del-style-CommentDetail">
+                                        <a href="" onclick={navigateToUser} class="del-style-UserName" data-id={objCaseComment.CreatedById}>{objCaseComment.CreatedBy.Name}</a>
+                                        <div class="del-style-DateTime">
+                                            <lightning-formatted-date-time
+                                                value ={objCaseComment.CreatedDate}
+                                                year="numeric"
+                                                day="2-digit"
+                                                month="long"
+                                                hour="2-digit"
+                                                minute="2-digit"
+                                                >
+                                        </lightning-formatted-date-time>
+                                        </div>
+                                        <div>{objCaseComment.Body__c}</div>
+                                    </div>
                                 </div>
-                                <div style="display:inline-block; padding-left: 40px">
-                                    <a href="" onclick={navigateToUser} data-id={comm.CreatedById} style="font-weight:bold ;">{comm.CreatedBy.Name}</a>
-                                <div style="font-size:0.9em;" >
-                                    <lightning-formatted-date-time
-                                    value={comm.CreatedDate}
-                                    year="numeric"
-                                    day="2-digit"
-                                    month="long"
-                                    hour="2-digit"
-                                    minute="2-digit"
-                                    >
-                                </lightning-formatted-date-time>
-                                </div>
-                                <div>{comm.Body__c}</div>
-                                </div>
-                            </div>
-                                
-                                
-                            <hr key={comm.Id} style="margin:8px 0px">
+                                <hr key={objCaseComment.Id} class="del-style-Margin">
+                            </template>
                         </template>
-                    </template>
-                </div>
-            </div>
-          </div>
-        
-    </lightning-card>
-</div>
+                    </div>
+                </div>    
+        </lightning-card>
 </template>
