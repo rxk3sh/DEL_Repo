@@ -9,8 +9,8 @@
 *
 *   Date            |  Developer Name               |  Version      |  Changes
 * ======================================================================================================
-*  17-06-2022      |  rakesh.nayak@absyz.com      |  1.0          |  Initial Version
-*
+*  17-06-2022      |  rakesh.nayak@absyz.com      |  1.0          |  Initial version
+*  21-06-2022      |  rakesh.nayak@absyz.com      |  1.1          |  Changed variable and function names
 *******************************************************************************************************/
 public class DEL_CommentsPageController {
     //fetchComments-This method queries and returns the CaseComment records related to the case with Id 'recordID'

@@ -15,7 +15,7 @@ export default class Del_commentsPage extends NavigationMixin(LightningElement) 
     strInsertId;
     objwiredComments; //contains retrieved data and errors from fetchComments(). Used to refresh apex data after insertion.
     //fetchComments-this method used to fetch the comments related to the case.
-    @wire(fetchComments,{strRecordId:'$recordId'})
+    @wire(fetchComments,{strRecordId : '$recordId'})
     commResult (result){
         this.objwiredComments=result;
         if(result.data){
